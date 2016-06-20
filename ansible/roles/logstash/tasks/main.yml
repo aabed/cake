@@ -1,0 +1,39 @@
+- name: Directories are present
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items: "{{ directories }}"
+  tags: [logstash]
+
+- name: Config file is present
+  copy:
+    src: syslog.conf
+    dest: "{{ conf_dir }}/syslog.conf"
+  tags: [logstash]
+- name: Download Geoip DB
+  get_url:
+    url: "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz"
+    dest: /data/geoip
+
+- name: Decompress GeoLiteCity
+  command: "gunzip -f /data/geoip/GeoLiteCity.dat.gz"
+
+
+- name: Container is running
+  docker:
+    state: reloaded
+    image: logstash
+    name: logstash
+    volumes:
+      - "{{ conf_dir }}:/conf"
+      - "/data/geoip:/geoip"
+    expose:
+      - 25826
+    ports:
+      - 25826:25826
+      - 25826:25826/udp
+    links:
+      - elasticsearch
+
+    command: "logstash -f /conf/syslog.conf"
+  tags: [logstash]
