@@ -9,7 +9,6 @@ logstash:
   image: logstash
   volumes:
     - "./logstash:/conf"
-    - "./geoip:/geoip"
   expose:
     - 25826
   ports:
@@ -20,7 +19,7 @@ logstash:
   command: "/bin/bash -c 'logstash-plugin install logstash-input-cloudwatch; logstash -f /conf/syslog.conf'"
 
 
-kibana:    
+kibana:
   image: kibana
   ports:
     - "5601:5601"
