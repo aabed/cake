@@ -1,0 +1,7 @@
+- name: Container is running
+  docker:
+    image: mariadb
+    name: db
+    env:
+       MYSQL_ROOT_PASSWORD: example
+  tags: [db]
