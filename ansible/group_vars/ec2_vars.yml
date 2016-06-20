@@ -1,8 +1,7 @@
 elk_keypair: "cake"
 elk_security_group: ""
-elk_instance_type: "t2.micro"
+elk_instance_type: "t2.small"
 elk_image: "ami-fce3c696"
-elk_subnet_ids: ['subnet-REDACTED','subnet-REDACTED','subnet-REDACTED']
 elk_region: "us-east-1"
 elk_tag_Name: "elk"
 elk_tag_Type: "elk"
@@ -13,7 +12,6 @@ blog_keypair: "cake"
 blog_security_group: ""
 blog_instance_type: "t2.micro"
 blog_image: "ami-fce3c696"
-blog_subnet_ids: ['subnet-REDACTED','subnet-REDACTED','subnet-REDACTED']
 blog_region: "us-east-1"
 blog_tag_Name: "blog"
 blog_tag_Type: "blog"
