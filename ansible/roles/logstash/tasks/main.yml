@@ -35,5 +35,5 @@
     links:
       - elasticsearch
 
-    command: "logstash -f /conf/syslog.conf"
+    command: "/bin/bash -c 'logstash-plugin install logstash-input-cloudwatch; logstash -f /conf/syslog.conf'"
   tags: [logstash]
