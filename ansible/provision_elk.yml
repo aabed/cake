@@ -1,0 +1,12 @@
+---
+ - hosts: tag_Name_elk
+   user: ubuntu
+   become: yes
+   pre_tasks:
+    - include_vars: group_vars/elk.yml
+   roles:
+    - docker
+    - elasticsearch
+    - logstash
+    - kibana
+    #- rsyslog

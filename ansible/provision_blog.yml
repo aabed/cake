@@ -1,0 +1,18 @@
+---
+ - hosts: all
+   tasks: []
+   user: ubuntu
+
+ - hosts: tag_Name_blog
+   user: ubuntu
+   become: yes
+   pre_tasks:
+    - include_vars: "{{ item }}"
+      with_items:
+        - group_vars/elk.yml
+        - group_vars/blog.yml
+   roles:
+    - docker
+    - db
+    - blog
+    - rsyslog
