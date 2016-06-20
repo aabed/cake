@@ -1,0 +1,12 @@
+- name: Create data directory
+  file: path=/data/elasticsearch state=directory
+
+- name: Container is running
+  docker:
+    image: elasticsearch
+    name: elasticsearch
+    ports:
+      - "{{ es_port }}:9200"
+    volumes:
+      - /data/elasticsearch:/usr/share/elasticsearch/data
+  tags: [elasticsearch]
