@@ -1,0 +1,47 @@
+---
+ - name: Create  new IAM Role for ELK
+   iam:
+     iam_type: role
+     name: "ELK"
+     state: present
+
+ - name: Create Cloudwatch policy from template
+   iam_policy:
+     iam_type: role
+     iam_name: "ELK"
+     policy_name: "ELK"
+     state: present
+     policy_document: ../ansible/roles/provision-ec2/files/cw_policy.json
+
+ - name: Provision ELK Box
+   local_action:
+     module: ec2
+     key_name: "{{ elk_keypair }}"
+     instance_type: "{{ elk_instance_type }}"
+     image: "{{ elk_image }}"
+     instance_profile_name: "ELK"
+     region: "{{ elk_region }}"
+     instance_tags: '{"Name":"{{elk_tag_Name}}","Type":"{{elk_tag_Type}}","Environment":"{{elk_tag_Environment}}"}'
+     wait: true
+     count: 1
+   register: ec2
+
+ - name: Provision Blog Box
+   local_action:
+     module: ec2
+     key_name: "{{ blog_keypair }}"
+     instance_type: "{{ blog_instance_type }}"
+     image: "{{ blog_image }}"
+     region: "{{ blog_region }}"
+     instance_tags: '{"Name":"{{blog_tag_Name}}","Type":"{{blog_tag_Type}}","Environment":"{{blog_tag_Environment}}"}'
+     wait: true
+     count: 1
+   register: ec2
+
+ - name: Add new instance to host group
+   add_host: hostname={{ item.public_ip }} groupname=elk
+   with_items: ec2.instances
+
+ - name: Wait for SSH to come up
+   wait_for: host={{ item.public_dns_name }} port=22 delay=60 timeout=320 state=started
+   with_items: ec2.instances
