@@ -9,4 +9,3 @@
     - elasticsearch
     - logstash
     - kibana
-    #- rsyslog

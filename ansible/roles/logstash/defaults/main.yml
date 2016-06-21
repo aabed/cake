@@ -1,7 +1,6 @@
 conf_dir: /data/logstash/config
 
 directories:
-  - /data/geoip
   - /data
   - /data/logstash
   - "{{ conf_dir }}"

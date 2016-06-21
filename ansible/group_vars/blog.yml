@@ -1,2 +1,2 @@
-wp_port: 8080
+wp_port: 80
 wp_ip: "{{ hostvars[groups['tag_Name_blog'][0]]['ansible_default_ipv4']['address'] }}"

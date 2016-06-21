@@ -1,6 +1,6 @@
 elk_keypair: "cake"
 elk_security_group: ""
-elk_instance_type: "t2.small"
+elk_instance_type: "t2.micro"
 elk_image: "ami-fce3c696"
 elk_region: "us-east-1"
 elk_tag_Name: "elk"

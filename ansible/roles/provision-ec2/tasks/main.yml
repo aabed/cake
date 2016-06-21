@@ -24,6 +24,8 @@
      instance_tags: '{"Name":"{{elk_tag_Name}}","Type":"{{elk_tag_Type}}","Environment":"{{elk_tag_Environment}}"}'
      wait: true
      count: 1
+   tags:
+     - elk_box
    register: ec2
 
  - name: Provision Blog Box
@@ -36,12 +38,41 @@
      instance_tags: '{"Name":"{{blog_tag_Name}}","Type":"{{blog_tag_Type}}","Environment":"{{blog_tag_Environment}}"}'
      wait: true
      count: 1
+   tags:
+     - blog_box
    register: ec2
 
+ - name: ec2_vol
+   ec2_vol:
+     instance: "{{ item.id }}"
+     volume_size: 10
+     name: "{{ item.tags.Name }}"
+     region: "{{ item.region }}"
+     device_name: /dev/xvdb
+   with_items: "{{ ec2.instances }}"
+   register: ec2_vol
+
  - name: Add new instance to host group
-   add_host: hostname={{ item.public_ip }} groupname=elk
+   add_host:
+     hostname={{ item.tags.Name }}
+     ansible_ssh_host={{ item.public_ip  }}
    with_items: ec2.instances
 
  - name: Wait for SSH to come up
    wait_for: host={{ item.public_dns_name }} port=22 delay=60 timeout=320 state=started
+   with_items: "{{ ec2.instances }}"
+
+
+ - name: Format the new volume
+   delegate_to: "{{item.tags.Name}}"
+   filesystem: fstype=ext4 dev=/dev/xvdb
+   remote_user: ubuntu
+   become: yes
    with_items: ec2.instances
+
+ - name: Mount instance store device1
+   delegate_to: "{{item.tags.Name}}"
+   mount: name=/data src=/dev/xvdb fstype=ext4 opts=rw state=mounted
+   remote_user: ubuntu
+   become: yes
+   with_items: "{{ ec2.instances }}"
