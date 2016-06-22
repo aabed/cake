@@ -1,6 +1,6 @@
 ## Wordpress + ELK Monitoring
 ### Getting started
- #### Configuring boto
+#### Configuring boto
  Create a basic boto file under your home directory ``` ~/.boto``` to look like something like this
 
  ```
