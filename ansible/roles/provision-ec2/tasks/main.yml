@@ -38,7 +38,7 @@
      image: "{{ blog_image }}"
      region: "{{ blog_region }}"
      zone: "{{ blog_zone }}"
-     instance_tags: '{"Name":"{{blog_tag_Name}}","Type":"{{blog_tag_Type}}","Environment":"{{blog_tag_Environment}}"}'
+     instance_tags: '{"Name":"{{blog_tag_Name}}","Type":"{{blog_tag_Type}}","Environment":"{{blog_tag_Environment}}","Monitoring":"Yes"}'
      wait: true
      count: 1
    tags:
