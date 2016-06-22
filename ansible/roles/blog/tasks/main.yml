@@ -4,8 +4,6 @@
     restart_policy: always
     image: wordpress
     name: blog
-    ports:
-      - "{{ wp_port }}:80"
     links:
       - db:mysql
     log_driver: syslog

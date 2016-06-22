@@ -9,3 +9,4 @@
     - elasticsearch
     - logstash
     - kibana
+    - { role: nginx, conf_file: "elk.conf",container_name: "kibana" }

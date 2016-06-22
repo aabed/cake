@@ -16,3 +16,4 @@
     - db
     - blog
     - rsyslog
+    - { role: nginx, conf_file: "blog.conf",container_name: "blog" }

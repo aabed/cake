@@ -1,0 +1,30 @@
+- name: Directories are present
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items: "{{ directories }}"
+  tags: [logstash]
+
+- name: Config file is present
+  template:
+    src: "{{ conf_file }}.j2"
+    dest: "{{ conf_dir }}/{{ conf_file }}"
+  tags: [nginx]
+
+- name: Container is running
+  docker:
+    state: reloaded
+    image: nginx:alpine
+    name: nginx
+    volumes:
+      - "{{ conf_dir }}:/etc/nginx/conf.d"
+    expose:
+      - 80
+    ports:
+      - 80:80
+    links:
+      - "{{ container_name }}"
+    log_driver: syslog
+    log_opt:
+      syslog-tag: blog
+  tags: [nginx]

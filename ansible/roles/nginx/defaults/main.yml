@@ -1,0 +1,4 @@
+conf_dir: /data/nginx/config.d
+
+directories:
+  - "{{ conf_dir }}"

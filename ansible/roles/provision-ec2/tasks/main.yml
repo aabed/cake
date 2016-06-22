@@ -21,6 +21,7 @@
      image: "{{ elk_image }}"
      instance_profile_name: "ELK"
      region: "{{ elk_region }}"
+     zone: "{{ elk_zone }}"
      instance_tags: '{"Name":"{{elk_tag_Name}}","Type":"{{elk_tag_Type}}","Environment":"{{elk_tag_Environment}}"}'
      wait: true
      count: 1
@@ -33,8 +34,10 @@
      module: ec2
      key_name: "{{ blog_keypair }}"
      instance_type: "{{ blog_instance_type }}"
+     monitoring: yes
      image: "{{ blog_image }}"
      region: "{{ blog_region }}"
+     zone: "{{ blog_zone }}"
      instance_tags: '{"Name":"{{blog_tag_Name}}","Type":"{{blog_tag_Type}}","Environment":"{{blog_tag_Environment}}"}'
      wait: true
      count: 1

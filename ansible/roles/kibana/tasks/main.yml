@@ -15,3 +15,32 @@
       - elasticsearch
   register: kibana_result
   tags: [kibana]
+
+
+- name: Create Visualizations
+  uri:
+    url: "http://{{ elk_ip }}:9200/.kibana/visualization/{{ item }}"
+    status_code: [200,201]
+    method: PUT
+    body: "{{ lookup('file', item +'.json') }}"
+    body_format: json
+    HEADER_Content-Type: "application/json"
+  with_items:
+      - Traffic-by-Country-ampersand-Device
+      - Traffic-by-Country-ampersand-OS
+      - Unique-Visits-by-City
+      - Total-Hits-by-City
+      - Traffic-vs.-Location
+      - Total-Visitors
+      - Unique-Visitors
+      - Apache-Dashboard
+- name: Create Dashboard
+  uri:
+    url: "http://{{ elk_ip }}:9200/.kibana/dashboard/{{ item }}"
+    status_code: [200,201]
+    method: PUT
+    body: "{{ lookup('file', item +'.json') }}"
+    body_format: json
+    HEADER_Content-Type: "application/json"
+  with_items:
+      - Apache
