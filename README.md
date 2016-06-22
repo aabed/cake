@@ -49,11 +49,17 @@ to start generating traffic on the newly created blog to get some data to visual
 Once you have generated enough logs go ahead and hit the ELK IP
 Complete the index settings
 
-#### Importing the sample dashboard
-In kibana go to **settings** > **objects** > **import** and choose the file cake/ansible/roles/kibana/files/export.json
+#### Kibana sample dashboard
+In Kibana go to dashboard and open saved dashboards to find a dashboard called **Dashboard for Apache Logs**
 
-This will create a new dashboard with some informative view into your blog visits
+You will get this **ERROR**
 
+```
+Could not locate that index-pattern-field
+```
+Which means you need to refresh the index on kibana you can do that either through the UI or curl
+* **Settings** > **Indices** > **Press the refresh button**
+* ``` curl -XPOST 'http://IP:9200/logstash-*/_refresh' 	```
 
 ### Docker Compose
 To start the same for development using docker compose
