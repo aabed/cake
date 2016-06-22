@@ -16,6 +16,11 @@ case $1 in
     ansible-playbook -i ../ansible/ec2.py ../ansible/provision_blog.yml --private-key=~/Downloads/cake.pem
     shift
     ;;
+    all)
+    ./all.sh    
+    shift
+    ;;
+
     *)
     echo "please provide one of the following [start_elk_machine,start_blog_machine,provision_elk,provision_blog]"
     ;;
